@@ -208,13 +208,37 @@ with app.app_context():
     # db.session.add(role)
     # db.session.commit()
     from werkzeug.security import generate_password_hash
+    from werkzeug.security import generate_password_hash, check_password_hash
+    """
+    def generate_hash_if_valid(password):
+        # 检查密码长度是否小于100个字符
+        if len(password) >= 100:
+            raise ValueError("Password must be less than 100 characters")
+        # 生成密码哈希
+        hashed_password = generate_password_hash(password)
+        return hashed_password
 
+    def check_password(hashed_password, password):
+        return check_password_hash(hashed_password, password)
+
+    # 示例用法
+    try:
+        password = "your_secure_password"
+        hashed_password = generate_hash_if_valid(password)
+        print(f"Hashed Password: {hashed_password}")
+
+        # 验证密码
+        is_valid = check_password(hashed_password, password)
+        print(f"Is valid: {is_valid}")
+    except ValueError as e:
+        print(e)
+    """
     admin = Admin(
-        name="imoocmovie",
-        pwd=generate_password_hash("imoocmovie"),
-        is_super=0,
-        role_id=1
-    )
+            name="imoocmovie",
+            pwd=generate_password_hash("xyz"), # 會產生超過100字元的密碼，但弟的code卻沒事, 有空再研究
+            is_super=0,
+            role_id=1
+    )    
     db.session.add(admin)
     db.session.commit()
 
